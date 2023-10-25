@@ -1,7 +1,9 @@
+import argparse
 import pandas as pd
 import sys
-import argparse
+
 from pulp import LpMaximize, LpProblem, LpStatus, lpSum, LpVariable
+from os import name
 from subprocess import run
 
 #################### CONSTANTS ####################
@@ -12,13 +14,19 @@ N_ROUNDS = 6
 #################### FUNCTIONALITY ####################
 # Command to clear the terminal
 def clear():
-    run('clear', shell=True)
+    if name == 'nt': # Windows
+        run('cls', shell=True)
+    else: # Everything else
+        run('clear', shell=True)
 
 def main(args):
     # Clears the terminal if the -c argument equals 'y'
     if args.c:
         clear()
+    
+    # Whether to print diagnostic information
     verbose = args.v
+
     # Get the file from arguments, or the November MML if the user forgets the argument
     file = args.f if args.f else DEFAULT_INPUT_FILE
 
