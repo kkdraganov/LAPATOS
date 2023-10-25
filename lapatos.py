@@ -5,20 +5,20 @@ from pulp import LpMaximize, LpProblem, LpStatus, lpSum, LpVariable
 from subprocess import run
 
 #################### CONSTANTS ####################
-DEFAULT_INPUT_FILE = "2023-24/Nov MLL Data.csv"
+DEFAULT_INPUT_FILE = "2023-24/Nov MML Data.csv"
 DEFAULT_OUTPUT_FILE = "output/Nov 2023-24 Selection.csv"
 N_ROUNDS = 6
 
 #################### FUNCTIONALITY ####################
 # Command to clear the terminal
 def clear():
-    run('cls', shell=True)
+    run('clear', shell=True)
 
 def main(args):
     # Clears the terminal if the -c argument equals 'y'
-    if args.c == 'y':
+    if args.c:
         clear()
-
+    verbose = args.v
     # Get the file from arguments, or the November MML if the user forgets the argument
     file = args.f if args.f else DEFAULT_INPUT_FILE
 
@@ -62,7 +62,7 @@ def main(args):
     model.solve()
 
     # Print information on the model if verbose argument given
-    if args.v == 'y':
+    if verbose:
         print(model)
         print(f"Status: {model.status}, {LpStatus[model.status]}")
         print(f"Objective: {model.objective.value()}")
@@ -102,8 +102,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--f') # input filepath
     parser.add_argument('--o') # output filepath
-    parser.add_argument('-c') # clear
-    parser.add_argument('-v') # verbose
+    parser.add_argument('-c', action='store_true') # clear, default is false
+    parser.add_argument('-v', action='store_true') # verbose, default is false
     args = parser.parse_args()
     
     selection = main(args)
