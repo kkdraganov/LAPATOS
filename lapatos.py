@@ -28,7 +28,7 @@ def main(args):
     verbose = args.v
 
     # Get the file from arguments, or the November MML if the user forgets the argument
-    file = args.f if args.f else DEFAULT_INPUT_FILE
+    file = args.i if args.i else DEFAULT_INPUT_FILE
 
     # Load the CSV
     data = pd.read_csv(file)
@@ -108,7 +108,7 @@ def main(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--f') # input filepath
+    parser.add_argument('--i') # input filepath
     parser.add_argument('--o') # output filepath
     parser.add_argument('-c', action='store_true') # clear, default is false
     parser.add_argument('-v', action='store_true') # verbose, default is false
